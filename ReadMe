@@ -1,0 +1,9 @@
+mini CRT(C Runtime) library
+
+- demo : just as the directory name means
+- miniProgram : a tiny program can be execute, exit with 42, LOL
+
+build env:
+	Linux ubuntu 3.2.0-93-generic
+	gcc 4.6.3
+	GNU Make 3.81

@@ -2,15 +2,13 @@
 
 extern int main(int argc, char *argv[]);
 
-void exit(int);
+static void _exit(int);
 
-static void crt_fatal_error(const char* msg)
-{
-    exit(1);
+static void crt_fatal_error(const char *msg) {
+    _exit(1);
 }
 
-void mini_crt_entry(void)
-{
+void mini_crt_entry(void) {
     int ret;
     int argc;
     char **argv;
@@ -19,16 +17,14 @@ void mini_crt_entry(void)
     //ebp_reg = %ebp
     asm("movl %%ebp, %0 \n": "=r"(ebp_reg));
 
-    argc = *(int*)(ebp_reg + 4);
-    argv = (char**)(ebp_reg + 8);
+    argc = *(int *) (ebp_reg + 4);
+    argv = (char **) (ebp_reg + 8);
 
-    if(!mini_crt_heap_init())
-    {
+    if (!mini_crt_heap_init()) {
         crt_fatal_error("heap init failed.");
     }
 
-    if(!mini_crt_io_init())
-    {
+    if (!mini_crt_io_init()) {
         crt_fatal_error("IO init fail");
     }
 
@@ -36,11 +32,14 @@ void mini_crt_entry(void)
     exit(ret);
 }
 
-void exit(int exitcode)
-{
+void _exit(int exitcode) {
     //mini_crt_call_exit_routine();
     asm("movl %0, %%ebx \n\t"
-        "movl $1, %%eax \n\t"
-        "int $0x80     \n\t"
-        "hlt            \n\t"::"m"(exitcode));
+            "movl $1, %%eax \n\t"
+            "int $0x80     \n\t"
+            "hlt            \n\t"::"m"(exitcode));
+}
+
+void exit(int exitcode) {
+    return _exit(exitcode);
 }

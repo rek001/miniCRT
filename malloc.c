@@ -16,7 +16,7 @@ typedef struct _heap_header {
 static heap_header *list_head = NULL;
 
 void free(void *ptr) {
-    heap_header *header = (heap_header*)NULL;
+    heap_header *header = (heap_header *) NULL;
     header = (heap_header *) (ADDR_ADD(ptr, -HEADER_SIZE));
     if (header->type != HEAP_BLOCK_USED) {
         return;
@@ -42,7 +42,7 @@ void free(void *ptr) {
 }
 
 void *malloc(unsigned size) {
-    heap_header *header = (heap_header*)NULL;
+    heap_header *header = (heap_header *) NULL;
     if (size == 0) {
         return NULL;
     }
